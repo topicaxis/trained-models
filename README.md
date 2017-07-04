@@ -1,4 +1,4 @@
-This repository contains The trained scikit-learn models that are used by TopicAxis to perform
+This repository contains the trained scikit-learn models that are used by TopicAxis to perform
 web page content classification.
 
 
