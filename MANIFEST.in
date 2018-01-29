@@ -1,0 +1,2 @@
+recursive-include classifiers/data/label_binarizer *
+recursive-include classifiers/data/trained_classifier *
