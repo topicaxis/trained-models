@@ -15,9 +15,6 @@ def process_web_page(content):
 
 def get_arguments():
     parser = ArgumentParser()
-
-    parser.add_argument("classifier")
-    parser.add_argument("binarizer")
     parser.add_argument("url")
 
     return parser.parse_args()
