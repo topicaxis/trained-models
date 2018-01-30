@@ -18,7 +18,8 @@ class CategoryClassifier(object):
         return self._binarizer.classes_
 
     def predict(self, data):
-        return self._classifier.predict(data)
+        result = self._classifier.predict(data)
+        return self._binarizer.inverse_transform(result)
 
     def predict_proba(self, data):
         return self._classifier.predict_proba(data)
