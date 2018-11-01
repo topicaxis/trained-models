@@ -1,2 +1,3 @@
 recursive-include classifiers/data/label_binarizer *
 recursive-include classifiers/data/trained_classifier *
+recursive-include classifiers/data/text_topics *

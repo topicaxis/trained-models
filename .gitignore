@@ -1,4 +1,5 @@
 .idea/
 virtualenv/
 classifiers.egg-info/
+temp/
 *.pyc
