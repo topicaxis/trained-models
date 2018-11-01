@@ -5,4 +5,5 @@ web page content classification.
 | class                      | description   |
 |----------------------------|---------------|
 | CategoryClassifier         | the classifier that is used by TopicAxis API to classify the contents of a page into the 5 supported categories programming, technology, business, science and politics |
+| TextTopics                 | an LDA model that predicts the topic distribution of the given text | 
 
