@@ -31,7 +31,7 @@ class KeywordSelectionFeatureExtractor(object):
 
     @property
     def feature_names(self):
-        return sorted(set(self._feature_functions.keys() + self._keyword_length_ratio_feature_functions.keys()))
+        return sorted(set(self._feature_functions.keys() + self._keyword_length_ratio_feature_functions.keys() + ["max_min_word_length_ratio", "non_alphanumeric_ratio"]))
 
     def extract_features(self, keywords):
         features = [
