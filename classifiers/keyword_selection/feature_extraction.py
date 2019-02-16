@@ -1,9 +1,10 @@
 import re
 
 import numpy as np
+from sklearn.base import BaseEstimator, TransformerMixin
 
 
-class KeywordSelectionFeatureExtractor(object):
+class KeywordSelectionFeatureExtractor(BaseEstimator, TransformerMixin):
     def __init__(self):
         self._alnum_re = re.compile(r"\w+")
         self._num_re = re.compile(r"\d+")
@@ -64,10 +65,18 @@ class KeywordSelectionFeatureExtractor(object):
 
         feature_names = self.feature_names
 
-        return np.array([
+        return [
             [
                 feature_instance[feature_name]
                 for feature_name in feature_names
             ]
             for feature_instance in features
-        ])
+        ]
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, keywords):
+        features = self.extract_features_array(keywords)
+
+        return np.array(features)
