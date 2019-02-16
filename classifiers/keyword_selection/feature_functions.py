@@ -40,4 +40,5 @@ def min_word_length(keyword):
 
 
 def calculate_keyword_length_ratio(features, feature_name):
-    return round((features[feature_name] / float(features["keyword_length"])) * 100.0)
+    return round(
+        (features[feature_name] / float(features["keyword_length"])) * 100.0)

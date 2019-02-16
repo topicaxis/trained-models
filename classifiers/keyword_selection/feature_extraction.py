@@ -33,31 +33,39 @@ class KeywordSelectionFeatureExtractor(BaseEstimator, TransformerMixin):
 
     @property
     def feature_names(self):
-        return sorted(set(self._feature_functions.keys() + self._keyword_length_ratio_feature_functions.keys() + ["max_min_word_length_ratio", "non_alphanumeric_ratio"]))
+        return sorted(set(
+            self._feature_functions.keys() +
+            self._keyword_length_ratio_feature_functions.keys() +
+            ["max_min_word_length_ratio", "non_alphanumeric_ratio"]
+        ))
 
     def extract_features(self, keywords):
         features = [
             {
                 feature_name: feature_function(keyword)
-                for feature_name, feature_function in self._feature_functions.items()
+                for feature_name, feature_function in
+                self._feature_functions.items()
             }
             for keyword in keywords
         ]
 
         keyword_length_ratio_features = [
             {
-                feature_name: feature_functions.calculate_keyword_length_ratio(feature_instance, source_feature_name)
-                for feature_name, source_feature_name in self._keyword_length_ratio_feature_functions.items()
+                feature_name: feature_functions.calculate_keyword_length_ratio(
+                    feature_instance, source_feature_name)
+                for feature_name, source_feature_name in
+                self._keyword_length_ratio_feature_functions.items()
             }
             for feature_instance in features
         ]
 
-        for feature, keyword_length_ratio_feature in zip(features, keyword_length_ratio_features):
+        for feature, keyword_length_ratio_feature in zip(
+                features, keyword_length_ratio_features):
             feature.update(keyword_length_ratio_feature)
 
         for feature in features:
-            feature["max_min_word_length_ratio"] = round((feature["min_word_length"] / float(feature["max_word_length"])) * 100.0)
-            feature["non_alphanumeric_ratio"] = round(((feature["other_character_count"] + feature["whitespace_count"]) / float(feature["keyword_length"])) * 100.0)
+            feature["max_min_word_length_ratio"] = round((feature["min_word_length"] / float(feature["max_word_length"])) * 100.0)  # noqa
+            feature["non_alphanumeric_ratio"] = round(((feature["other_character_count"] + feature["whitespace_count"]) / float(feature["keyword_length"])) * 100.0)  # noqa
 
         return features
 
