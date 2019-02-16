@@ -3,6 +3,8 @@ import re
 import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
 
+from classifiers.keyword_selection import feature_functions
+
 
 class KeywordSelectionFeatureExtractor(BaseEstimator, TransformerMixin):
     def __init__(self):
@@ -12,17 +14,16 @@ class KeywordSelectionFeatureExtractor(BaseEstimator, TransformerMixin):
         self._whitespace_re = re.compile(r"[\s]+")
 
         self._feature_functions = {
-            "keyword_length": lambda keyword: len(keyword),
-            "word_count": lambda keyword: len(keyword.split(" ")),
-            "alphanumeric_count": lambda keyword: sum([len(item) for item in self._alnum_re.findall(keyword)]),
-            "numeric_count": lambda keyword: sum([len(item) for item in self._num_re.findall(keyword)]),
-            "other_character_count": lambda keyword: sum([len(item) for item in self._other_re.findall(keyword)]),
-            "whitespace_count": lambda keyword: sum([len(item) for item in self._whitespace_re.findall(keyword)]),
-            "max_word_length": lambda keyword: max([len(x) for x in keyword.split(" ")]),
-            "min_word_length": lambda keyword: min([len(x) for x in keyword.split(" ")])
+            "keyword_length": feature_functions.keyword_length,
+            "word_count": feature_functions.word_count,
+            "alphanumeric_count": feature_functions.alphanumeric_count,
+            "numeric_count": feature_functions.numeric_count,
+            "other_character_count": feature_functions.other_character_count,
+            "whitespace_count": feature_functions.whitespace_count,
+            "max_word_length": feature_functions.max_word_length,
+            "min_word_length": feature_functions.min_word_length
         }
 
-        self._keyword_length_ratio_func = lambda features, feature_name: round((features[feature_name] / float(features["keyword_length"])) * 100.0)
         self._keyword_length_ratio_feature_functions = {
             "alphanumeric_ratio": "alphanumeric_count",
             "numeric_ratio": "numeric_count",
@@ -45,7 +46,7 @@ class KeywordSelectionFeatureExtractor(BaseEstimator, TransformerMixin):
 
         keyword_length_ratio_features = [
             {
-                feature_name: self._keyword_length_ratio_func(feature_instance, source_feature_name)
+                feature_name: feature_functions.calculate_keyword_length_ratio(feature_instance, source_feature_name)
                 for feature_name, source_feature_name in self._keyword_length_ratio_feature_functions.items()
             }
             for feature_instance in features
