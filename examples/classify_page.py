@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 import requests
 from bs4 import BeautifulSoup
 
-from classifiers.classifiers import CategoryClassifier
+from classifiers.documents.categories.classifier import CategoryClassifier
 
 
 def process_web_page(content):
