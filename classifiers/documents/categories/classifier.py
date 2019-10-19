@@ -6,9 +6,9 @@ from sklearn.externals import joblib
 class CategoryClassifier(object):
     def __init__(self):
         binarizer_file = resource_filename(
-            "classifiers", "data/label_binarizer/label_binarizer.pickle")
+            "classifiers", "data/document_classifier/binarizer.joblib")
         classifier_file = resource_filename(
-            "classifiers", "data/trained_classifier/classifier.pickle")
+            "classifiers", "data/document_classifier/classifier.joblib")
 
         self._binarizer = joblib.load(binarizer_file)
         self._classifier = joblib.load(classifier_file)

@@ -34,8 +34,8 @@ class KeywordSelectionFeatureExtractor(BaseEstimator, TransformerMixin):
     @property
     def feature_names(self):
         return sorted(set(
-            self._feature_functions.keys() +
-            self._keyword_length_ratio_feature_functions.keys() +
+            list(self._feature_functions.keys()) +
+            list(self._keyword_length_ratio_feature_functions.keys()) +
             ["max_min_word_length_ratio", "non_alphanumeric_ratio"]
         ))
 
