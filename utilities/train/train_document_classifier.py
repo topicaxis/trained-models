@@ -46,7 +46,7 @@ def main():
         c=args.c
     )
 
-    # convert the test targets into and indication matrix
+    # convert the test targets into an indicator matrix
     binarized_test_targets = training_result.binarizer.transform([[item] for item in train_test_dataset.test.targets])
 
     evaluate_classifier(training_result.pipeline, train_test_dataset.test.data, binarized_test_targets)

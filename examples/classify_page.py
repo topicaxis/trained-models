@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 import requests
 from bs4 import BeautifulSoup
 
-from classifiers.documents.categories.classifier import CategoryClassifier
+from classifiers.documents.categories.classifier import create_category_classifier
 
 
 def process_web_page(content):
@@ -23,7 +23,7 @@ def get_arguments():
 def main():
     args = get_arguments()
 
-    classifier = CategoryClassifier()
+    classifier = create_category_classifier()
 
     response = requests.get(args.url)
 

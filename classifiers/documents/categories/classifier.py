@@ -3,15 +3,22 @@ from pkg_resources import resource_filename
 from sklearn.externals import joblib
 
 
-class CategoryClassifier(object):
-    def __init__(self):
-        binarizer_file = resource_filename(
-            "classifiers", "data/document_classifier/binarizer.joblib")
-        classifier_file = resource_filename(
-            "classifiers", "data/document_classifier/classifier.joblib")
+def create_category_classifier():
+    binarizer_file = resource_filename(
+        "classifiers", "data/document_classifier/binarizer.joblib")
+    classifier_file = resource_filename(
+        "classifiers", "data/document_classifier/classifier.joblib")
 
-        self._binarizer = joblib.load(binarizer_file)
-        self._classifier = joblib.load(classifier_file)
+    return CategoryClassifier(
+        binarizer=joblib.load(binarizer_file),
+        classifier=joblib.load(classifier_file)
+    )
+
+
+class CategoryClassifier(object):
+    def __init__(self, binarizer, classifier):
+        self._binarizer = binarizer
+        self._classifier = classifier
 
     @property
     def classes_(self):
