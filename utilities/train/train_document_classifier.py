@@ -4,13 +4,13 @@ from sklearn.metrics import classification_report
 from joblib import dump
 
 from classifiers.documents.categories.trainer import CategoryClassifierTrainer
+from classifiers.documents.categories.datasets.loaders import CategoryClassifierDatasetLoader
 
 
 def get_arguments():
     parser = ArgumentParser()
     parser.add_argument("dataset")
-    parser.add_argument("--classifier", default="classifier.joblib")
-    parser.add_argument("--binarizer", default="binarizer.joblib")
+    parser.add_argument("--output", default="output")
     parser.add_argument("--min-text-length", default=200, type=int)
     parser.add_argument("--test-size", default=0.3, type=float)
     parser.add_argument("--feature-count", default=5000, type=int)
@@ -31,13 +31,14 @@ def evaluate_classifier(classifier, documents, categories):
 def main():
     args = get_arguments()
 
-    trainer = CategoryClassifierTrainer(
-        dataset_file=args.dataset,
+    dataset_loader = CategoryClassifierDatasetLoader(args.dataset)
+    train_test_dataset = dataset_loader.create_train_test_dataset(
         test_size=args.test_size,
         min_text_length=args.min_text_length,
         selected_categories=["cat__programming", "cat__science", "cat__business", "cat__politics", "cat__technology"]
     )
 
+    trainer = CategoryClassifierTrainer(train_test_dataset.train)
     training_result = trainer.train(
         max_df=args.max_df,
         min_df=args.min_df,
@@ -46,10 +47,11 @@ def main():
         c=args.c
     )
 
-    evaluate_classifier(training_result.pipeline, training_result.train_test_dataset.test.data, training_result.train_test_dataset.test.targets)
+    # convert the test targets into and indication matrix
+    binarized_test_targets = training_result.binarizer.transform([[item] for item in  train_test_dataset.test.targets])
 
-    dump(training_result.pipeline, args.classifier)
-    dump(training_result.binarizer, args.binarizer)
+    evaluate_classifier(training_result.pipeline, train_test_dataset.test.data, binarized_test_targets)
+    training_result.save(args.output)
 
 
 if __name__ == "__main__":
