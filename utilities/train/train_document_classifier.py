@@ -1,7 +1,6 @@
 from argparse import ArgumentParser
 
 from sklearn.metrics import classification_report
-from joblib import dump
 
 from classifiers.documents.categories.trainer import CategoryClassifierTrainer
 from classifiers.documents.categories.datasets.loaders import CategoryClassifierDatasetLoader
@@ -48,7 +47,7 @@ def main():
     )
 
     # convert the test targets into and indication matrix
-    binarized_test_targets = training_result.binarizer.transform([[item] for item in  train_test_dataset.test.targets])
+    binarized_test_targets = training_result.binarizer.transform([[item] for item in train_test_dataset.test.targets])
 
     evaluate_classifier(training_result.pipeline, train_test_dataset.test.data, binarized_test_targets)
     training_result.save(args.output)
