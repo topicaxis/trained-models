@@ -3,6 +3,15 @@ from pkg_resources import resource_filename
 from sklearn.externals import joblib
 
 
+def create_keyword_selection_classifier():
+    classifier_file = resource_filename(
+        "classifiers",
+        "data/keyword_selection_classifier/classifier.joblib"
+    )
+
+    return KeywordSelectionClassifier(joblib.load(classifier_file))
+
+
 class KeywordSelectionClassifier(object):
     """Keyword selection classifier
 
@@ -13,12 +22,8 @@ class KeywordSelectionClassifier(object):
     1 = the keyword is valid and can be used
     """
 
-    def __init__(self):
-        classifier_file = resource_filename(
-            "classifiers",
-            "data/keyword_selection_classifier/classifier.joblib"
-        )
-        self._classifier = joblib.load(classifier_file)
+    def __init__(self, classifier):
+        self._classifier = classifier
 
     def predict(self, keywords):
         return self._classifier.predict(keywords)

@@ -1,8 +1,8 @@
-from classifiers.keyword_selection.classifier import KeywordSelectionClassifier
+from classifiers.keyword_selection.classifiers import create_keyword_selection_classifier
 
 
 def main():
-    classifier = KeywordSelectionClassifier()
+    classifier = create_keyword_selection_classifier()
 
     keywords = [
         "$# ^%$ sdfs #",
