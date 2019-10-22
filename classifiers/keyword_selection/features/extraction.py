@@ -3,7 +3,7 @@ import re
 import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
 
-from classifiers.keyword_selection import feature_functions
+from classifiers.keyword_selection.features import functions
 
 
 class KeywordSelectionFeatureExtractor(BaseEstimator, TransformerMixin):
@@ -14,14 +14,14 @@ class KeywordSelectionFeatureExtractor(BaseEstimator, TransformerMixin):
         self._whitespace_re = re.compile(r"[\s]+")
 
         self._feature_functions = {
-            "keyword_length": feature_functions.keyword_length,
-            "word_count": feature_functions.word_count,
-            "alphanumeric_count": feature_functions.alphanumeric_count,
-            "numeric_count": feature_functions.numeric_count,
-            "other_character_count": feature_functions.other_character_count,
-            "whitespace_count": feature_functions.whitespace_count,
-            "max_word_length": feature_functions.max_word_length,
-            "min_word_length": feature_functions.min_word_length
+            "keyword_length": functions.keyword_length,
+            "word_count": functions.word_count,
+            "alphanumeric_count": functions.alphanumeric_count,
+            "numeric_count": functions.numeric_count,
+            "other_character_count": functions.other_character_count,
+            "whitespace_count": functions.whitespace_count,
+            "max_word_length": functions.max_word_length,
+            "min_word_length": functions.min_word_length
         }
 
         self._keyword_length_ratio_feature_functions = {
@@ -51,7 +51,7 @@ class KeywordSelectionFeatureExtractor(BaseEstimator, TransformerMixin):
 
         keyword_length_ratio_features = [
             {
-                feature_name: feature_functions.calculate_keyword_length_ratio(
+                feature_name: functions.calculate_keyword_length_ratio(
                     feature_instance, source_feature_name)
                 for feature_name, source_feature_name in
                 self._keyword_length_ratio_feature_functions.items()
