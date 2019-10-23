@@ -2,7 +2,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
 
 from classifiers.classifiers import TrainingResult
-from classifiers.keyword_selection.features.extraction import KeywordSelectionFeatureExtractor
+from classifiers.keyword_selection.features.extraction import (
+    KeywordSelectionFeatureExtractor
+)
 
 
 class KeywordSelectionClassifierTrainer(object):

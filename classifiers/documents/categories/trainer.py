@@ -29,19 +29,23 @@ class CategoryClassifierTrainer(object):
     @staticmethod
     def _create_pipeline(max_df, min_df, feature_count, penalty, c):
         return Pipeline([
-            ("vectorizer", CountVectorizer(ngram_range=(1, 1), max_df=max_df, min_df=min_df)),
+            ("vectorizer", CountVectorizer(
+                ngram_range=(1, 1), max_df=max_df, min_df=min_df)),
             ("feature_selection", SelectKBest(chi2, k=feature_count)),
-            ("classifier", OneVsRestClassifier(LogisticRegression(penalty=penalty, C=c, random_state=42)))
+            ("classifier", OneVsRestClassifier(
+                LogisticRegression(penalty=penalty, C=c, random_state=42)))
         ])
 
     def _create_binarizer(self):
-        binarizer = MultiLabelBinarizer(classes=list(set(self._dataset.targets)))
+        binarizer = MultiLabelBinarizer(
+            classes=list(set(self._dataset.targets)))
         binarizer.fit(self._dataset.targets)
 
         return binarizer
 
     def _prepare_dataset(self, binarizer):
-        binarized_categories = binarizer.transform([[item] for item in self._dataset.targets])
+        binarized_categories = binarizer.transform(
+            [[item] for item in self._dataset.targets])
 
         return Dataset(data=self._dataset.data, targets=binarized_categories)
 
