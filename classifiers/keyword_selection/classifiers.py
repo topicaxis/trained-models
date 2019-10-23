@@ -1,6 +1,6 @@
 from pkg_resources import resource_filename
 
-from sklearn.externals import joblib
+import joblib
 
 
 def create_keyword_selection_classifier():
