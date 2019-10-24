@@ -6,7 +6,16 @@ from classifiers.datasets import TrainTestDataset, Dataset
 
 
 class CategoryClassifierDatasetLoader(object):
+    """Document category classifier dataset loader"""
+
     def __init__(self, dataset_file):
+        """Create a new CategoryClassifierDatasetLoader object
+
+        The dataset file must contain a json object in each line. The item must
+        contain a 'text' and a 'category' attribute.
+
+        :param str dataset_file: the path to the dataset file
+        """
         self._dataset_file = dataset_file
 
     @staticmethod
@@ -32,6 +41,16 @@ class CategoryClassifierDatasetLoader(object):
 
     def create_train_test_dataset(self, test_size=0.3, min_text_length=200,
                                   selected_categories=None):
+        """Create a training/testing dataset
+
+        :param float test_size: the test size percentage in the 0-1 value range
+        :param int min_text_length: the minimun text length that a document
+            must be in order to be used
+        :param list[str]|None selected_categories: which categories to use in
+            the dataset
+        :rtype: TrainTestDataset
+        :return: the training/testing dataset
+        """
         documents, categories = self._load_dataset(
             selected_categories, min_text_length)
 

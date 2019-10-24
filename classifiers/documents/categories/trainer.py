@@ -12,18 +12,37 @@ from classifiers.datasets import Dataset
 
 
 class CategoryClassifierTrainingResult(object):
-    def __init__(self, binarizer, pipeline, dataset):
+    """Document category classifier training result object"""
+
+    def __init__(self, binarizer, classifier, dataset):
+        """Create a new CategoryClassifierTrainingResult object
+
+        :param MultiLabelBinarizer binarizer: the
+            binarizer to be used
+        :param sklearn.base.BaseEstimator classifier: the classifier to be used
+        :param Dataset dataset: the dataset that will be used for training
+        """
         self.binarizer = binarizer
-        self.pipeline = pipeline
+        self.classifier = classifier
         self.dataset = dataset
 
     def save(self, output_directory):
-        dump(self.pipeline, path.join(output_directory, "classifier.joblib"))
+        """Save the classifier component to the given directory
+
+        :param str output_directory: the output directory
+        """
+        dump(self.classifier, path.join(output_directory, "classifier.joblib"))
         dump(self.binarizer, path.join(output_directory, "binarizer.joblib"))
 
 
 class CategoryClassifierTrainer(object):
+    """Document category classifier trainer object"""
+
     def __init__(self, dataset):
+        """Create a new CategoryClassifierTrainer object
+
+        :param Dataset dataset: the dataset that will be used for training
+        """
         self._dataset = dataset
 
     @staticmethod
@@ -50,6 +69,16 @@ class CategoryClassifierTrainer(object):
         return Dataset(data=self._dataset.data, targets=binarized_categories)
 
     def train(self, max_df, min_df, feature_count, penalty, c):
+        """Train a classifier
+
+        :param float max_df: the maximum document frequency in 0-1 range
+        :param int min_df: the minimum document frequency
+        :param int feature_count: the number of features to select
+        :param str penalty: the training penalty to use. This can be l1 or l2
+        :param float c: the C value for the logistic regression classifier
+        :rtype: CategoryClassifierTrainingResult
+        :return: the training result
+        """
         binarizer = self._create_binarizer()
         prepared_dataset = self._prepare_dataset(binarizer)
 
@@ -64,6 +93,6 @@ class CategoryClassifierTrainer(object):
 
         return CategoryClassifierTrainingResult(
             binarizer=binarizer,
-            pipeline=pipeline,
+            classifier=pipeline,
             dataset=self._dataset
         )

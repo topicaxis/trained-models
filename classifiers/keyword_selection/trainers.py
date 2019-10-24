@@ -8,7 +8,13 @@ from classifiers.keyword_selection.features.extraction import (
 
 
 class KeywordSelectionClassifierTrainer(object):
+    """Keyword selection classifier trainer"""
+
     def __init__(self, dataset):
+        """Create a new KeywordSelectionClassifierTrainer object
+
+        :param Dataset dataset: the dataset that will be used for training
+        """
         self._dataset = dataset
 
     def _create_pipeline(self, n_estimators, max_depth, max_features):
@@ -21,6 +27,15 @@ class KeywordSelectionClassifierTrainer(object):
         ])
 
     def train(self, n_estimators, max_depth, max_features):
+        """Train a classifier
+
+        :param int n_estimators: the number of entimators to train
+        :param int max_depth: the random forest classifier max depth
+        :param int max_features: the random forest classifier max number of
+            features
+        :rtype: TrainingResult
+        :return: the training result
+        """
         pipeline = self._create_pipeline(n_estimators, max_depth, max_features)
 
         pipeline.fit(self._dataset.data, self._dataset.targets)
