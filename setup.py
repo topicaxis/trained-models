@@ -14,7 +14,7 @@ def get_requirements():
 
 setup(
     name='classifiers',
-    version='0.5.0',
+    version='0.5.1',
     packages=find_packages(exclude=["tests"]),
     include_package_data=True,
     zip_safe=False,
