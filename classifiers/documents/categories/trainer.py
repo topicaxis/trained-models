@@ -52,7 +52,8 @@ class CategoryClassifierTrainer(object):
                 ngram_range=(1, 1), max_df=max_df, min_df=min_df)),
             ("feature_selection", SelectKBest(chi2, k=feature_count)),
             ("classifier", OneVsRestClassifier(
-                LogisticRegression(penalty=penalty, C=c, random_state=42)))
+                LogisticRegression(penalty=penalty, C=c, random_state=42,
+                                   max_iter=1000, solver="liblinear")))
         ])
 
     def _create_binarizer(self):
